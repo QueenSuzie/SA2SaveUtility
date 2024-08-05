@@ -14,6 +14,21 @@ namespace SA2SaveUtility
 
         public int gcFileNo = 0;
 
+        public Dictionary<uint, string> themeValues = new Dictionary<uint, string>()
+        {
+            { 0x0, "NONE" },
+            { 0x1, "Shadow" },
+            { 0x2, "Rouge" },
+            { 0x3, "Eggman" },
+            { 0x4, "Maria" },
+            { 0x5, "Secretary" },
+            { 0x6, "Omochao" },
+            { 0x7, "Amy" },
+            { 0x8, "Tails" },
+            { 0x9, "Knuckles" },
+            { 0xA, "Sonic" }
+        };
+
         public uc_Main()
         {
             InitializeComponent();
@@ -61,6 +76,11 @@ namespace SA2SaveUtility
             tpMC.Controls.Add(ucMC);
             tpMC.Text = "Chao";
             tc_Main.Controls[1].Controls.OfType<TabControl>().First().TabPages.Add(tpMC);
+
+            //Misc
+            cb_CurrentTheme.DataSource = new BindingSource(themeValues, null);
+            cb_CurrentTheme.DisplayMember = "Value";
+            cb_CurrentTheme.ValueMember = "Key";
         }
 
         private void Btn_UnlockAll_Click(object sender, EventArgs e)
@@ -482,6 +502,42 @@ namespace SA2SaveUtility
                 else { Main.WriteByte((int)offsets.main.VoiceLanguage, cb_Voice.SelectedIndex, mainIndex); }
             }
             else { Memory.WriteByteAtAddress((int)offsets.main.VoiceLanguageRTE, (byte)cb_Voice.SelectedIndex); }
+        }
+
+        private void checkb_HeroStory_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!Main.isRTE) { Main.WriteByte((int)offsets.main.HeroStoryComplete, Convert.ToInt32(Convert.ToInt32(checkb_HeroStory.Checked)), mainIndex); }
+            else { Memory.WriteByteAtAddress((int)offsets.main.HeroStoryCompleteRTE, (byte)(checkb_HeroStory.Checked ? 1 : 0)); }
+        }
+
+        private void checkb_DarkStory_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!Main.isRTE) { Main.WriteByte((int)offsets.main.DarkStoryComplete, Convert.ToInt32(Convert.ToInt32(checkb_DarkStory.Checked)), mainIndex); }
+            else { Memory.WriteByteAtAddress((int)offsets.main.DarkStoryCompleteRTE, (byte)(checkb_DarkStory.Checked ? 1 : 0)); }
+        }
+
+        private void checkb_LastStory_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!Main.isRTE) { Main.WriteByte((int)offsets.main.LastStoryComplete, Convert.ToInt32(Convert.ToInt32(checkb_LastStory.Checked)), mainIndex); }
+            else { Memory.WriteByteAtAddress((int)offsets.main.LastStoryCompleteRTE, (byte)(checkb_LastStory.Checked ? 1 : 0)); }
+        }
+
+        private void cb_CurrentTheme_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!Main.isRTE) { Main.WriteByte((int)offsets.main.CurrentTheme, cb_CurrentTheme.SelectedIndex, mainIndex); }
+            else { Memory.WriteByteAtAddress((int)offsets.main.CurrentThemeRTE, (byte)cb_CurrentTheme.SelectedIndex); }
+        }
+
+        private void checkb_Vibration_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!Main.isRTE) { Main.WriteByte((int)offsets.main.ControllerVibration, Convert.ToInt32(Convert.ToInt32(checkb_Vibration.Checked)), mainIndex); }
+            else { Memory.WriteByteAtAddress((int)offsets.main.ControllerVibrationRTE, (byte)(checkb_Vibration.Checked ? 1 : 0)); }
+        }
+
+        private void checkb_Mono_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!Main.isRTE) { Main.WriteByte((int)offsets.main.MonoEnabled, Convert.ToInt32(Convert.ToInt32(checkb_Mono.Checked)), mainIndex); }
+            else { Memory.WriteByteAtAddress((int)offsets.main.MonoEnabledRTE, (byte)(checkb_Mono.Checked ? 1 : 0)); }
         }
     }
 }

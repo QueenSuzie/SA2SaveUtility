@@ -137,6 +137,18 @@ namespace SA2SaveUtility
             }
             else { voiceLang = (int)Memory.ReadBytes(Convert.ToInt32(offsets.main.VoiceLanguageRTE), 1).First(); }
 
+            int currentTheme = 0;
+            if (!Main.isRTE) { currentTheme = (int)save[offsets.main.CurrentTheme]; }
+            else { currentTheme = (int)Memory.ReadBytes(Convert.ToInt32(offsets.main.CurrentThemeRTE), 1).First(); }
+
+            int controllerVibration = 0;
+            if (!Main.isRTE) { controllerVibration = (int)save[offsets.main.ControllerVibration]; }
+            else { controllerVibration = (int)Memory.ReadBytes(Convert.ToInt32(offsets.main.ControllerVibrationRTE), 1).First(); }
+
+            int monoEnabled = 0;
+            if (!Main.isRTE) { monoEnabled = (int)save[offsets.main.MonoEnabled]; }
+            else { monoEnabled = (int)Memory.ReadBytes(Convert.ToInt32(offsets.main.MonoEnabledRTE), 1).First(); }
+
             int sonicCW = (int)save[offsets.main.ChaoWorldSonic];
             int tailsCW = (int)save[offsets.main.ChaoWorldTails];
             int knucklesCW = (int)save[offsets.main.ChaoWorldKnuckles];
@@ -260,6 +272,9 @@ namespace SA2SaveUtility
 
             int greenH = (int)save[offsets.main.GreenHill];
 
+            int heroStoryComplete = !Main.isRTE ? (int)save[offsets.main.HeroStoryComplete] : (int)Memory.ReadBytes(Convert.ToInt32(offsets.main.HeroStoryCompleteRTE), 1).First();
+            int darkStoryComplete = !Main.isRTE ? (int)save[offsets.main.DarkStoryComplete] : (int)Memory.ReadBytes(Convert.ToInt32(offsets.main.DarkStoryCompleteRTE), 1).First();
+            int lastStoryComplete = !Main.isRTE ? (int)save[offsets.main.LastStoryComplete] : (int)Memory.ReadBytes(Convert.ToInt32(offsets.main.LastStoryCompleteRTE), 1).First();
 
             int kartS = 0;
             if (!Main.isRTE) { kartS = (int)save[offsets.main.KartSonic]; }
@@ -466,6 +481,29 @@ namespace SA2SaveUtility
                     checkb_RougeTreasureScope.InvokeCheck(() => checkb_RougeTreasureScope.Checked(Convert.ToBoolean(rougeTS)));
                     checkb_RougeIronBoots.InvokeCheck(() => checkb_RougeIronBoots.Checked(Convert.ToBoolean(rougeIB)));
                     checkb_RougeMysticMelody.InvokeCheck(() => checkb_RougeMysticMelody.Checked(Convert.ToBoolean(rougeMM)));
+                }
+            }
+
+            //Misc
+            foreach (GroupBox gb in controls[2].Controls.OfType<GroupBox>())
+            {
+                if (gb.Name == "gb_StoryEmblems")
+                {
+                    CheckBox checkb_HeroStory = gb.Controls.OfType<CheckBox>().Where(x => x.Name == "checkb_HeroStory").First();
+                    CheckBox checkb_DarkStory = gb.Controls.OfType<CheckBox>().Where(x => x.Name == "checkb_DarkStory").First();
+                    CheckBox checkb_LastStory = gb.Controls.OfType<CheckBox>().Where(x => x.Name == "checkb_LastStory").First();
+                    checkb_HeroStory.InvokeCheck(() => checkb_HeroStory.Checked(Convert.ToBoolean(heroStoryComplete)));
+                    checkb_DarkStory.InvokeCheck(() => checkb_DarkStory.Checked(Convert.ToBoolean(darkStoryComplete)));
+                    checkb_LastStory.InvokeCheck(() => checkb_LastStory.Checked(Convert.ToBoolean(lastStoryComplete)));
+                }
+                else if (gb.Name == "gb_Settings")
+                {
+                    ComboBox cb_CurrentTheme = gb.Controls.OfType<ComboBox>().Where(x => x.Name == "cb_CurrentTheme").First();
+                    CheckBox checkb_Vibration = gb.Controls.OfType<CheckBox>().Where(x => x.Name == "checkb_Vibration").First();
+                    CheckBox checkb_Mono = gb.Controls.OfType<CheckBox>().Where(x => x.Name == "checkb_Mono").First();
+                    cb_CurrentTheme.InvokeCheck(() => cb_CurrentTheme.SelectedIndex(currentTheme));
+                    checkb_Vibration.InvokeCheck(() => checkb_Vibration.Checked(Convert.ToBoolean(controllerVibration)));
+                    checkb_Mono.InvokeCheck(() => checkb_Mono.Checked(Convert.ToBoolean(monoEnabled)));
                 }
             }
 

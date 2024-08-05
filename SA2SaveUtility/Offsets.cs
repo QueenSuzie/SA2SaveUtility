@@ -30,11 +30,19 @@ namespace SA2SaveUtility
 
     class Save
     {
-        public uint TextLanguage = 0x2848;
+        public uint TextLanguage = 0x2848; // Wrong? 0x2848 controls stereo/mono
         public uint TextLanguageRTE = 0x174AFD1;
         public uint EmblemCount = 0x284E;
         public uint Lives = 0x285C;
         public uint LivesRTE = 0x174B024;
+        public uint CurrentTheme = 0x2853;
+        //public uint CurrentTheme = 0x2874;
+        public uint CurrentThemeRTE = 0x174B01D;
+        public uint ControllerVibration = 0x284F;
+        public uint ControllerVibrationRTE = 0x174B00A;
+        public uint MonoEnabled = 0x2848;
+        public uint MonoEnabledRTE = 0x174AFD0;
+
         //Time is an integer, 0x01 = 1 60th of a second
         public uint EmblemResultsTime = 0x2868;
         public uint PlayTime = 0x286C;
@@ -144,8 +152,11 @@ namespace SA2SaveUtility
         public uint AllAKnuckles = 0x5CD1;
         public uint AllARouge = 0x5CD2;
         public uint HeroStoryComplete = 0x5CD3;
+        public uint HeroStoryCompleteRTE = 0x1DEFA93;
         public uint DarkStoryComplete = 0x5CD4;
+        public uint DarkStoryCompleteRTE = 0x1DEFA94;
         public uint LastStoryComplete = 0x5CD5;
+        public uint LastStoryCompleteRTE = 0x1DEFA95;
         public uint BossAttackHero = 0x5CD6;
         public uint BossAttackDark = 0x5CD7;
         public uint BossAttackAll = 0x5CD8;
